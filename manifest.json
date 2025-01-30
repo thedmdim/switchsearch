@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "Search Engine Switcher",
+  "version": "1.0",
+  "description": "Quickly switch between search engines from the search results page.",
+  "permissions": ["tabs", "storage"],
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "icon.png",
+      "48": "icon.png",
+      "128": "icon.png"
+    }
+  },
+
+  "icons": {
+    "16": "icon.png",
+    "48": "icon.png",
+    "128": "icon.png"
+  }
+}
+
