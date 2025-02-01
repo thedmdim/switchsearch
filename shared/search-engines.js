@@ -4,4 +4,6 @@ const searchEngines = [
   { name: "Yandex", url: "https://ya.ru/search/?text=" },
 ];
 
+
+
 export default searchEngines;

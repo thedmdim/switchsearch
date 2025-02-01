@@ -1,22 +1,17 @@
 {
   "manifest_version": 3,
-  "name": "Search Engine Switcher",
-  "version": "1.0",
+  "name": "SwitchSearch",
+  "version": "1.1",
   "description": "Quickly switch between search engines from the search results page.",
-  "permissions": ["tabs", "storage"],
+  "permissions": ["storage", "tabs"],
   "action": {
     "default_popup": "popup/popup.html",
-    "default_icon": {
-      "16": "icon.png",
-      "48": "icon.png",
-      "128": "icon.png"
-    }
+    "default_icon": "icon.png"
   },
-
+  "options_page": "settings/settings.html",
   "icons": {
     "16": "icon.png",
     "48": "icon.png",
     "128": "icon.png"
   }
 }
-

@@ -2,7 +2,9 @@ import searchEngines from "../shared/search-engines.js";
 
 
 document.addEventListener("DOMContentLoaded", async () => {
-    const [fieldset] = document.getElementsByTagName("fieldset");
+    let [fieldset] = document.getElementsByTagName("fieldset");
+
+    let { selectedSearchEngineName } = await browser.storage.local.get("selectedSearchEngineName")
     searchEngines.forEach((se) => {
         se.parsedURL = new URL(se.url)
         let params = Array.from(se.parsedURL.searchParams.keys())
@@ -20,6 +22,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         input.type = "radio"
         input.name = "search-engine"
         input.value = se.name
+
+        if (input.value == selectedSearchEngineName) {
+            input.setAttribute('checked', 'checked');
+        }
+        
 
         
         label.appendChild(input)
@@ -46,7 +53,8 @@ document.addEventListener("DOMContentLoaded", async () => {
                     browser.tabs.update(currTab.id, { url: newSearch.parsedURL.protocol + newSearch.parsedURL.hostname });  
                 }
             }
+
+            browser.storage.local.set({"selectedSearchEngineName": event.target.value})
         }
     });
 });
-
