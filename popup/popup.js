@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const [tab] = await browser.tabs.query({ active: true, currentWindow: true });
     const url = new URL(tab.url);
-    const currSe = searchEngines.find(se => se.url.hostname == url.hostname && (url.pathname == "/" || se.url.pathname == url.pathname))
+    const currSe = searchEngines.find(se => se.url.hostname == url.hostname && (url.pathname == "/" || se.url.pathname == url.pathname));
 
     searchEngines.forEach(se => {
 
