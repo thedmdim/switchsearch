@@ -1,15 +1,21 @@
-import searchEngines from "../shared/search-engines.js";
-
-
 document.addEventListener("DOMContentLoaded", async () => {
+    let { TextSearchEngines } = await browser.storage.local.get("TextSearchEngines")
+
     let [fieldset] = document.getElementsByTagName("fieldset");
 
     const [tab] = await browser.tabs.query({ active: true, currentWindow: true });
-    const url = new URL(tab.url);
-    const currSe = searchEngines.find(se => se.url.hostname == url.hostname && (url.pathname == "/" || se.url.pathname == url.pathname));
+    const tabUrl = new URL(tab.url);
 
-    searchEngines.forEach(se => {
+    let currSe
+    for (let name in TextSearchEngines) {
+        let search = TextSearchEngines[name]
+        let url = new URL(search.url)
+        if (url.hostname == tabUrl.hostname && (tabUrl.pathname == "/" || url.pathname == tabUrl.pathname)) {
+            currSe = name
+        }
+    }
 
+    for (let name in TextSearchEngines) {
         const label = document.createElement("label");
         label.style.display = "block";
 
@@ -17,31 +23,32 @@ document.addEventListener("DOMContentLoaded", async () => {
         
         input.type = "radio"
         input.name = "search-engine"
-        input.value = se.name
+        input.value = name
 
-        if (currSe && input.value == currSe.name) {
+        if (input.value == currSe) {
             input.setAttribute('checked', 'checked');
         }
         
         label.appendChild(input)
-        label.innerHTML += se.name
+        label.innerHTML += name
         fieldset.appendChild(label);
-    });
+    }
 
     fieldset.addEventListener("change", async (event) => {
         if (event.target.name === "search-engine") {
-            let newSe = searchEngines.find(se => se.name == event.target.value)
+            let newSe = TextSearchEngines[event.target.value]
+            let url = new URL(newSe.url)
 
             if (currSe) {
-                let currq = url.searchParams.get(currSe.q)
+                let currq = tabUrl.searchParams.get(TextSearchEngines[currSe].qparam)
                 if (currq) {
-                    newSe.url.searchParams.set(newSe.q, currq)
-                    browser.tabs.update(tab.id, { url: newSe.url.href });
+                    url.searchParams.set(newSe.qparam, currq)
+                    browser.tabs.update(tab.id, { url: url.href });
                 } else {
-                    browser.tabs.update(tab.id, { url: newSe.url.protocol + "//" + newSe.url.hostname });  
+                    browser.tabs.update(tab.id, { url: url.protocol + "//" + url.hostname });  
                 }
             } else {
-                browser.tabs.create( { url: newSe.url.protocol + "//" + newSe.url.hostname } )
+                browser.tabs.create( { url: url.protocol + "//" + url.hostname } )
             }
         }
     });
