@@ -17,7 +17,13 @@ const TextSearchEngines = {
 		qparam: "q",
 		builtIn: true,
 		enabled: true
-	}
+	},
+	Perplexity: {
+		url: "https://www.perplexity.ai/search/new",
+		qparam: "q",
+		builtIn: true,
+		enabled: true
+	},
 };
 
 // initialize image search engines
@@ -31,7 +37,6 @@ const ImageSearchEngines = {
 		qparam: "url"
 	}
 };
-
 
 
 export { TextSearchEngines, ImageSearchEngines }

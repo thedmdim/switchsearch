@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", async () => {
+    
     let { TextSearchEngines } = await browser.storage.local.get("TextSearchEngines")
 
     let [fieldset] = document.getElementsByTagName("fieldset");
@@ -6,12 +7,15 @@ document.addEventListener("DOMContentLoaded", async () => {
     const [tab] = await browser.tabs.query({ active: true, currentWindow: true });
     const tabUrl = new URL(tab.url);
 
-    let currSe
+    // let [searchName, searchData] = findSearchEngnieByUrl(tabUrl.hostname)
+    let searchName, searchData
     for (let name in TextSearchEngines) {
         let search = TextSearchEngines[name]
         let url = new URL(search.url)
-        if (url.hostname == tabUrl.hostname && (tabUrl.pathname == "/" || url.pathname == tabUrl.pathname)) {
-            currSe = name
+        if (url.hostname == tabUrl.hostname) {
+            searchName = name
+            searchData = search
+            break
         }
     }
 
@@ -25,7 +29,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         input.name = "search-engine"
         input.value = name
 
-        if (input.value == currSe) {
+        if (input.value == searchName) {
             input.setAttribute('checked', 'checked');
         }
         
@@ -39,13 +43,20 @@ document.addEventListener("DOMContentLoaded", async () => {
             let newSe = TextSearchEngines[event.target.value]
             let url = new URL(newSe.url)
 
-            if (currSe) {
-                let currq = tabUrl.searchParams.get(TextSearchEngines[currSe].qparam)
-                if (currq) {
-                    url.searchParams.set(newSe.qparam, currq)
-                    browser.tabs.update(tab.id, { url: url.href });
-                } else {
+            if (searchName) {
+                let currq = tabUrl.searchParams.get(searchData.qparam)        
+                if (!currq && tabUrl.pathname == "/") {
                     browser.tabs.update(tab.id, { url: url.protocol + "//" + url.hostname });  
+                    return
+                }
+
+                let { lastq } = await browser.storage.local.get("lastq")
+                let q = currq || lastq
+                if (q) {
+                    url.searchParams.set(newSe.qparam, q)
+                    browser.tabs.update(tab.id, { url: url.href });
+                    browser.storage.local.set({ lastq: q })
+                    return
                 }
             } else {
                 browser.tabs.create( { url: url.protocol + "//" + url.hostname } )

@@ -21,70 +21,73 @@ document.addEventListener("DOMContentLoaded", async () => {
         let search = TextSearchEngines[k]
         let row = document.createElement("tr")
 
-        let name = document.createElement("td");
-        name.innerHTML = k
-        row.appendChild(name)
+        let col0 = document.createElement("td");
+        col0.innerHTML = k
+        row.appendChild(col0)
 
-        let enabled = document.createElement("td");
+        let col1 = document.createElement("td");
         let input = document.createElement("input")
         input.type = "checkbox"
         if (search.enabled) {
             input.setAttribute('checked', 'checked');
         }
-        enabled.appendChild(input)
-        row.appendChild(enabled)
+        col1.appendChild(input)
+        row.appendChild(col1)
 
-        let url = document.createElement("td");
-        url.innerHTML = search.url
-        row.appendChild(url)
+        let col2 = document.createElement("td");
+        col2.innerHTML = search.url
+        row.appendChild(col2)
 
-        let qparam = document.createElement("td");
-        qparam.innerHTML = search.qparam
-        row.appendChild(qparam)
+        let col3 = document.createElement("td");
+        col3.innerHTML = search.qparam
+        row.appendChild(col3)
 
 
-        let remove = document.createElement("td");
+        let col4 = document.createElement("td");
         if (search.builtIn) {
-            remove.innerHTML = "built in"
+            col4.innerHTML = "built in"
         } else {
-            let btn = document.createElement("input")
-            btn.type = "button"
-            btn.value = "remove"
-            remove.appendChild(btn)
+            input = document.createElement("input")
+            input.type = "button"
+            input.value = "remove"
+            col4.appendChild(input)
         }
-        row.appendChild(remove)
+        row.appendChild(col4)
         
         table.appendChild(row)
     }
 
     let row = document.createElement("tr")
 
-    let name = document.createElement("td");
-    let nameInput = document.createElement("input");
-    name.appendChild(nameInput)
-    row.appendChild(name)
+    let col0 = document.createElement("td");
+    let input = document.createElement("input");
+    input.placeholder = "name your search"
+    col0.appendChild(input)
+    row.appendChild(col0)
 
-    let enabled = document.createElement("td");
-    row.appendChild(enabled)
-
-
-    let url = document.createElement("td");
-    let urlInput = document.createElement("input");
-    url.appendChild(urlInput)
-    row.appendChild(url)
+    let col1 = document.createElement("td");
+    row.appendChild(col1)
 
 
-    let qparam = document.createElement("td");
-    let qparamInput = document.createElement("input");
-    qparam.appendChild(qparamInput)
-    row.appendChild(qparam)
+    let col2 = document.createElement("td");
+    input = document.createElement("input");
+    input.placeholder = "place an url"
+    col2.appendChild(input)
+    row.appendChild(col2)
 
-    let append = document.createElement("td");
-    let appendInput = document.createElement("input");
-    appendInput.type = "button"
-    appendInput.value = "append"
-    append.appendChild(appendInput)
-    row.appendChild(append)
+
+    let col3 = document.createElement("td");
+    input = document.createElement("input");
+    input.placeholder = "search query param"
+    col3.appendChild(input)
+    row.appendChild(col3)
+
+    let col4 = document.createElement("td");
+    input = document.createElement("input");
+    input.type = "button"
+    input.value = "append"
+    col4.appendChild(input)
+    row.appendChild(col4)
+
     table.appendChild(row)
-
 });
