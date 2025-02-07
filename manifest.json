@@ -14,8 +14,11 @@
   },
   "options_page": "settings/settings.html",
   "icons": {
-    "16": "icon.png",
-    "48": "icon.png",
-    "128": "icon.png"
+    "64": "icon.png"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "switchsearch@thedmdim.github"
+    }
   }
 }
