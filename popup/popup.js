@@ -20,6 +20,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     for (let name in TextSearchEngines) {
+
+        if (!TextSearchEngines[name].enabled) {
+            continue
+        }
+
         const label = document.createElement("label");
         label.style.display = "block";
 
