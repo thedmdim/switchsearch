@@ -1,7 +1,7 @@
 # SwitchSearch
 Switch quickly between search results of many search engines such as Google, Yandex, Brave, Perplexity or add custom ones!
 
-![](https://drive.google.com/file/d/1wp9RQJUoEfp91Y9uIKxy1PHItdUVGIgb/view?usp=sharing)
+![](https://github.com/user-attachments/assets/3a6af6f8-c623-4f05-a13c-489dc9cc2227)
 
 # Why use it?
 - Tired of one search engine monopoly
