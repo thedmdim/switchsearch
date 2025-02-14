@@ -3,7 +3,7 @@ Switch quickly between search results of many search engines such as Google, Yan
 
 [![firefox web store](https://extensionworkshop.com/assets/img/documentation/publish/get-the-addon-129x45px.8041c789.png)](https://addons.mozilla.org/firefox/addon/switchsearch)
 
-[![chrome web store](https://developer.chrome.com/static/docs/webstore/branding/image/206x58-chrome-web-bcb82d15b2486.png)](pending)
+[![chrome web store](https://developer.chrome.com/static/docs/webstore/branding/image/206x58-chrome-web-bcb82d15b2486.png)](https://chromewebstore.google.com/detail/switchsearch/fmhncjaheleephdddbbjondoglignpfd)
 
 https://github.com/user-attachments/assets/3a6af6f8-c623-4f05-a13c-489dc9cc2227
 
