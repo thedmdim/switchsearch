@@ -7,21 +7,20 @@ document.addEventListener("DOMContentLoaded", async () => {
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
     const tabUrl = new URL(tab.url);
 
-    // let [searchName, searchData] = findSearchEngnieByUrl(tabUrl.hostname)
-    let searchName, searchData
-    for (let name in TextSearchEngines) {
-        let search = TextSearchEngines[name]
+    let currSearch
+    for (let i in TextSearchEngines) {
+        let search = TextSearchEngines[i]
         let url = new URL(search.url)
         if (url.hostname == tabUrl.hostname) {
-            searchName = name
-            searchData = search
+            currSearch = search
             break
         }
     }
 
-    for (let name in TextSearchEngines) {
+    for (let i in TextSearchEngines) {
+        let search = TextSearchEngines[i]
 
-        if (!TextSearchEngines[name].enabled) {
+        if (!search.enabled) {
             continue
         }
 
@@ -32,24 +31,24 @@ document.addEventListener("DOMContentLoaded", async () => {
         
         input.type = "radio"
         input.name = "search-engine"
-        input.value = name
+        input.value = search.name
 
-        if (input.value == searchName) {
+        if (currSearch && currSearch.name == input.value) {
             input.setAttribute('checked', 'checked');
         }
         
         label.appendChild(input)
-        label.innerHTML += name
+        label.innerHTML += search.name
         fieldset.appendChild(label);
     }
 
     fieldset.addEventListener("change", async (event) => {
         if (event.target.name === "search-engine") {
-            let newSe = TextSearchEngines[event.target.value]
+            let newSe = TextSearchEngines.find(e => e.name == event.target.value)
             let url = new URL(newSe.url)
 
-            if (searchName) {
-                let currq = tabUrl.searchParams.get(searchData.qparam)        
+            if (currSearch) {
+                let currq = tabUrl.searchParams.get(currSearch.qparam)        
                 if (!currq && tabUrl.pathname == "/") {
                     chrome.tabs.update(tab.id, { url: url.protocol + "//" + url.hostname });  
                     return
