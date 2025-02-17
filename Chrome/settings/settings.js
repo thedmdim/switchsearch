@@ -1,14 +1,14 @@
-function createTableRow(searchName, searchData) {
+function createTableRow(searchData) {
     let row = document.createElement("tr")
 
     let col0 = document.createElement("td");
-    col0.innerHTML = searchName
+    col0.innerHTML = searchData.name
     row.appendChild(col0)
 
     let col1 = document.createElement("td");
     let input = document.createElement("input")
     input.name = "enabled"
-    input.value = searchName
+    input.value = searchData.name
     input.type = "checkbox"
     if (searchData.enabled) {
         input.setAttribute('checked', 'checked');
@@ -33,7 +33,7 @@ function createTableRow(searchName, searchData) {
         input.innerHTML = "remove"
         input.name = "remove"
         input.type = "button"
-        input.value = searchName
+        input.value = searchData.name
         col4.appendChild(input)
     }
     row.appendChild(col4)
@@ -45,9 +45,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     let appendForm = document.getElementById("append-form")
     let table = appendForm.parentNode
     let { TextSearchEngines } = await chrome.storage.local.get("TextSearchEngines");
-    for (let searchName in TextSearchEngines) {
-        let searchData = TextSearchEngines[searchName]
-        let row = createTableRow(searchName, searchData)
+    for (let i in TextSearchEngines) {
+        let row = createTableRow(TextSearchEngines[i])
         table.insertBefore(row, appendForm)
     }
 
@@ -62,33 +61,32 @@ document.addEventListener("DOMContentLoaded", async () => {
             return
         }
 
-        let searchName = name.value
         let searchData = {
+            name: name.value,
             url: url.value,
 		    qparam: qparam.value,
 		    builtIn: false,
 		    enabled: true
         }
         let { TextSearchEngines } = await chrome.storage.local.get("TextSearchEngines");
-        TextSearchEngines[searchName] = searchData
+        TextSearchEngines.push(searchData)
         chrome.storage.local.set({TextSearchEngines: TextSearchEngines});
 
-        let row = createTableRow(searchName, searchData)
+        let row = createTableRow(searchData)
         table.insertBefore(row, appendForm)
     }
 
     table.addEventListener("click", async event => {
         if (event.target.name == "enabled") {
-            console.log("enabled", event.target.checked)
-            TextSearchEngines[event.target.value].enabled = event.target.checked
+            let i = TextSearchEngines.findIndex(e => e.name == event.target.value)
+            TextSearchEngines[i].enabled = event.target.checked
             chrome.storage.local.set({TextSearchEngines: TextSearchEngines});
             return
         };
 
         if (event.target.name == "remove") {
             let { TextSearchEngines } = await chrome.storage.local.get("TextSearchEngines");
-            delete TextSearchEngines[event.target.value]
-            chrome.storage.local.set({TextSearchEngines: TextSearchEngines});
+            chrome.storage.local.set({TextSearchEngines: TextSearchEngines.filter(e => e.name !== event.target.value)});
             chrome.tabs.reload()
         }
     });

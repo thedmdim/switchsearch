@@ -23,9 +23,6 @@ browser.contextMenus.onClicked.addListener(async (info, tab) => {
 
     let [searchName, searchType] = info.menuItemId.split(".")
 
-    console.log(25)
-    console.log(searchName)
-    console.log(searchType)
     if (searchType === "ImageSearch") {
         let search = ImageSearchEngines[searchName]
         if (search) {
