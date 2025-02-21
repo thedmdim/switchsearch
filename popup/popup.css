@@ -1,5 +1,6 @@
 body {
-  font-family: Arial, sans-serif;
+  font-family: monospace;
+  font-size: 1.1em;
   margin: 0;
   padding: 10px;
   width: 200px;
