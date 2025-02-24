@@ -22,6 +22,13 @@ const TextSearchEngines = [
 		enabled: true
 	},
 	{
+		name: "DuckDuckGo",
+		url: "https://duckduckgo.com/",
+		qparam: "q",
+		builtIn: true,
+		enabled: false
+	},
+	{
 		name: "Perplexity",
 		url: "https://www.perplexity.ai/search/new",
 		qparam: "q",
@@ -36,19 +43,19 @@ const TextSearchEngines = [
 		enabled: false
 	},
 	{
-		name: "DuckDuckGo",
-		url: "https://duckduckgo.com/",
-		qparam: "q",
-		builtIn: true,
-		enabled: false
-	},
-	{
 		name: "Wiby",
 		url: "http://wiby.me/",
 		qparam: "q",
 		builtIn: true,
 		enabled: false
-	}
+	},
+    {
+        name: "Marginalia",
+        url: "https://marginalia-search.com/search",
+        qparam: "query",
+        builtIn: true,
+        enabled: false
+    }
 ];
 
 // initialize image search engines
