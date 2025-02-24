@@ -9,13 +9,13 @@ browser.runtime.onInstalled.addListener(async () => {
     // TO DO: remove isArray check after few versions
     let prevEnabled = {}
     if (Array.isArray(prevSavedTextSearchEngines)) {
-        for (i in prevSavedTextSearchEngines) {
+        for (let i in prevSavedTextSearchEngines) {
             let prevSaved = prevSavedTextSearchEngines[i]
             prevEnabled[prevSaved.name] = prevSaved.enabled
         }
-        for (i in TextSearchEngines) {
+        for (let i in TextSearchEngines) {
             let searchName = TextSearchEngines[i].name
-            if (prevEnabled.hasOwn(searchName)) {
+            if (Object.hasOwn(prevEnabled, searchName)) {
                 TextSearchEngines[i].enabled = prevEnabled[searchName]
             }
         }
