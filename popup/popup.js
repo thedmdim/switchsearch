@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 let currq = tabUrl.searchParams.get(currSearch.qparam)
                 let q = currq || lastq  
                 if (!q && tabUrl.pathname == "/") {
-                    browser.tabs.update(tab.id, { url: url.protocol + "//" + url.hostname });  
+                    chrome.tabs.update(tab.id, { url: url.protocol + "//" + url.hostname });  
                     return
                 }
                                 
