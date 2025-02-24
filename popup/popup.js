@@ -48,14 +48,14 @@ document.addEventListener("DOMContentLoaded", async () => {
             let url = new URL(newSe.url)
 
             if (currSearch) {
-                let currq = tabUrl.searchParams.get(currSearch.qparam)        
-                if (!currq && tabUrl.pathname == "/") {
+                let { lastq } = await browser.storage.local.get("lastq")
+                let currq = tabUrl.searchParams.get(currSearch.qparam)
+                let q = currq || lastq  
+                if (!q && tabUrl.pathname == "/") {
                     browser.tabs.update(tab.id, { url: url.protocol + "//" + url.hostname });  
                     return
                 }
-
-                let { lastq } = await browser.storage.local.get("lastq")
-                let q = currq || lastq
+                                
                 if (q) {
                     url.searchParams.set(newSe.qparam, q)
                     browser.tabs.update(tab.id, { url: url.href });

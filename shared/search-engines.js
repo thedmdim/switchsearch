@@ -29,16 +29,30 @@ const TextSearchEngines = [
 		enabled: true
 	},
 	{
+		name: "ChatGPT",
+		url: "https://chatgpt.com/?hints=search",
+		qparam: "q",
+		builtIn: true,
+		enabled: false
+	},
+	{
 		name: "DuckDuckGo",
 		url: "https://duckduckgo.com/",
 		qparam: "q",
 		builtIn: true,
-		enabled: true
+		enabled: false
 	},
 	{
 		name: "Wiby",
 		url: "http://wiby.me/",
 		qparam: "q",
+		builtIn: true,
+		enabled: false
+	},
+	{
+		name: "Marginalia",
+		url: "https://marginalia-search.com/search",
+		qparam: "query",
 		builtIn: true,
 		enabled: false
 	}
