@@ -6,18 +6,17 @@ chrome.runtime.onInstalled.addListener(async () => {
     let session = await chrome.storage.local.get()
     let prevSavedTextSearchEngines = session["TextSearchEngines"]
 
-    // TO DO: remove isArray check after few versions 
+    // TO DO: remove isArray check after few versions
+    let prevEnabled = {}
     if (Array.isArray(prevSavedTextSearchEngines)) {
-        for (i in prevSavedTextSearchEngines) {
-
+        for (let i in prevSavedTextSearchEngines) {
             let prevSaved = prevSavedTextSearchEngines[i]
-
-            for (j in TextSearchEngines) {
-                if (TextSearchEngines[j].name == prevSaved.name) {
-                    TextSearchEngines[j].enabled = prevSaved.enabled
-                    continue
-                }
-                TextSearchEngines.push(prevSaved)
+            prevEnabled[prevSaved.name] = prevSaved.enabled
+        }
+        for (let i in TextSearchEngines) {
+            let searchName = TextSearchEngines[i].name
+            if (Object.hasOwn(prevEnabled, searchName)) {
+                TextSearchEngines[i].enabled = prevEnabled[searchName]
             }
         }
     }
