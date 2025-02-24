@@ -50,7 +50,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         table.insertBefore(row, appendForm)
     }
 
-    
     document.getElementById("append").onclick = async () => {
         let name = document.getElementById("name")
         let url = document.getElementById("url")
