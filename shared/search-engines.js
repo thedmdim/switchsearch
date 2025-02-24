@@ -29,6 +29,13 @@ const TextSearchEngines = [
 		enabled: true
 	},
 	{
+		name: "ChatGPT(Search)",
+		url: "https://chatgpt.com/?hints=search",
+		qparam: "q",
+		builtIn: true,
+		enabled: true
+	},
+	{
 		name: "DuckDuckGo",
 		url: "https://duckduckgo.com/",
 		qparam: "q",
