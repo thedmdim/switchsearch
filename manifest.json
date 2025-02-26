@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "SwitchSearch",
-  "version": "1.4",
-  "description": "Quickly switch between search engines from the search results page.",
+  "version": "1.5",
+  "description": "Switch Search Engines Without Losing Your Query",
   "permissions": ["storage", "tabs", "contextMenus"],
   "action": {
     "default_popup": "popup/popup.html",

@@ -49,7 +49,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         let row = createTableRow(TextSearchEngines[i])
         table.insertBefore(row, appendForm)
     }
-
     
     document.getElementById("append").onclick = async () => {
         let name = document.getElementById("name")

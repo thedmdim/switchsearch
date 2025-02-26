@@ -1,5 +1,5 @@
 # SwitchSearch
-Switch quickly between search results of many search engines such as Google, Yandex, Brave, Perplexity or add custom ones!
+One click Search Engine switcher
 
 [![firefox web store](https://extensionworkshop.com/assets/img/documentation/publish/get-the-addon-129x45px.8041c789.png)](https://addons.mozilla.org/firefox/addon/switchsearch)
 
@@ -14,6 +14,6 @@ https://github.com/user-attachments/assets/3a6af6f8-c623-4f05-a13c-489dc9cc2227
 - Explore Deep Web
 
 # Features
-- Built in Google, Yandex, Brave, Perplexity
-- Add any text search engine you like
+- Built in Google, Yandex, Brave, DuckDuckGo, Perplexity, ChatGPT, Wiby, Marginalia
+- Add any other search engine you'd like
 - Google and Yandex image search (right click a pic)
