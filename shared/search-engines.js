@@ -44,7 +44,7 @@ const TextSearchEngines = [
 	},
 	{
 		name: "Wiby",
-		url: "http://wiby.me/",
+		url: "https://wiby.me/",
 		qparam: "q",
 		builtIn: true,
 		enabled: false
