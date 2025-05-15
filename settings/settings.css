@@ -4,13 +4,24 @@ html {
 	image-rendering: pixelated;
 }
 
+:root[theme="light"] {
+    --bg: white;
+    --text: black;
+  }
+  
+:root[theme="dark"] {
+    --bg: #1e1e1e;
+    --text: white;
+}
+
 body {
     display: grid;
     grid-template-columns: 1fr;
     grid-gap: 20px;
 	max-width: 900px;
 	margin: auto;
-    background-color: white;
+    background-color: var(--bg);
+    color: var(--text);
     font-family: monospace;
     font-size: 1.4em;
 	padding: 0.5em 1em;
@@ -18,7 +29,7 @@ body {
 }
 
 table, th, td {
-    border: 1px solid black;
+    border: 1px solid var(--text);
     border-left: none;
     border-right: none;
     border-collapse: collapse;
