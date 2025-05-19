@@ -56,18 +56,21 @@ document.addEventListener("DOMContentLoaded", async () => {
             let nextURL = new URL(nextSearchEngine.url)
 
             if (currSearchEngine) {
+
                 let { lastq } = await chrome.storage.local.get("lastq")
                 let currq = tabUrl.searchParams.get(currSearchEngine.qparam)
-                let q = currq || lastq
-                
-                if (tabUrl.pathname != "/" & q) {
-                    nextURL.searchParams.set(nextSearchEngine.qparam, q)
-                    chrome.tabs.update(tab.id, { url: nextURL.href });
-                    chrome.storage.local.set({ lastq: q })
+
+                if (tabUrl.pathname == "/" && !currq && !currSearchEngine.useLastq) {
+                    chrome.tabs.update(tab.id, { url: nextURL.origin });
                     return
                 }
 
-                chrome.tabs.update(tab.id, { url: nextURL.origin });         
+                let q = currq || lastq
+                nextURL.searchParams.set(nextSearchEngine.qparam, q)
+                chrome.tabs.update(tab.id, { url: nextURL.href });
+                chrome.storage.local.set({ lastq: q })
+                return
+                       
             } else {
                 chrome.tabs.create( { url: nextURL.origin } )
             }
