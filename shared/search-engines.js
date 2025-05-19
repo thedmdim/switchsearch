@@ -56,14 +56,14 @@ const TextSearchEngines = [
 		enabled: false,
 		useLastq: false
 	},
-    {
-        name: "Marginalia",
-        url: "https://marginalia-search.com/search",
-        qparam: "query",
-        builtIn: true,
-        enabled: false,
+	{
+		name: "Marginalia",
+		url: "https://marginalia-search.com/search",
+		qparam: "query",
+		builtIn: true,
+		enabled: false,
 		useLastq: false
-    }
+	}
 ];
 
 // initialize image search engines
