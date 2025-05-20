@@ -5,57 +5,65 @@ const TextSearchEngines = [
 		url: "https://www.google.com/search",
 		qparam: "q",
 		builtIn: true,
-		enabled: true
+		enabled: true,
+		useLastq: false
 	},
 	{
 		name: "Yandex",
 		url: "https://ya.ru/search/",
 		qparam: "text",
 		builtIn: true,
-		enabled: true
+		enabled: true,
+		useLastq: false
 	},
 	{
 		name: "Brave",
 		url: "https://search.brave.com/search",
 		qparam: "q",
 		builtIn: true,
-		enabled: true
+		enabled: true,
+		useLastq: false
 	},
 	{
 		name: "DuckDuckGo",
 		url: "https://duckduckgo.com/",
 		qparam: "q",
 		builtIn: true,
-		enabled: false
+		enabled: false,
+		useLastq: false
 	},
 	{
 		name: "Perplexity",
 		url: "https://www.perplexity.ai/search/new",
 		qparam: "q",
 		builtIn: true,
-		enabled: true
+		enabled: true,
+		useLastq: true
 	},
 	{
 		name: "ChatGPT",
 		url: "https://chatgpt.com/?hints=search",
 		qparam: "q",
 		builtIn: true,
-		enabled: false
+		enabled: false,
+		useLastq: true
 	},
 	{
 		name: "Wiby",
-		url: "http://wiby.me/",
+		url: "https://wiby.me/",
 		qparam: "q",
 		builtIn: true,
-		enabled: false
+		enabled: false,
+		useLastq: false
 	},
-    {
-        name: "Marginalia",
-        url: "https://marginalia-search.com/search",
-        qparam: "query",
-        builtIn: true,
-        enabled: false
-    }
+	{
+		name: "Marginalia",
+		url: "https://marginalia-search.com/search",
+		qparam: "query",
+		builtIn: true,
+		enabled: false,
+		useLastq: false
+	}
 ];
 
 // initialize image search engines

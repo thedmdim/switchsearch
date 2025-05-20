@@ -42,6 +42,35 @@ function createTableRow(searchData) {
 
 document.addEventListener("DOMContentLoaded", async () => {
 
+    // theme settings
+
+    let applyTheme = theme => {
+        if (theme == "auto") {
+            theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+            document.documentElement.setAttribute("theme", theme);
+            return
+        }
+        document.documentElement.setAttribute("theme", theme);
+    }
+
+    let { theme } = await browser.storage.local.get("theme");
+    if (!theme) {
+        theme = "auto"
+    }
+    applyTheme(theme)
+
+    document.querySelectorAll("input[name='theme']").forEach(input => {
+        if (input.value === theme) {
+            input.checked = true
+        }
+        input.addEventListener("change", () => {
+            browser.storage.local.set({ theme: input.value });
+            applyTheme(input.value)
+        });
+    });
+
+    // search engines list
+
     let appendForm = document.getElementById("append-form")
     let table = appendForm.parentNode
     let { TextSearchEngines } = await browser.storage.local.get("TextSearchEngines");
