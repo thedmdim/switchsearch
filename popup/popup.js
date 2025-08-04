@@ -51,29 +51,27 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     fieldset.addEventListener("change", async (event) => {
-        if (event.target.name === "search-engine") {
-            let nextSearchEngine = TextSearchEngines.find(e => e.name == event.target.value)
-            let nextURL = new URL(nextSearchEngine.url)
-
-            if (currSearchEngine) {
-
-                let { lastq } = await browser.storage.local.get("lastq")
-                let currq = tabUrl.searchParams.get(currSearchEngine.qparam)
-
-                if (tabUrl.pathname == "/" && !currq && !currSearchEngine.useLastq) {
-                    browser.tabs.update(tab.id, { url: nextURL.origin });
-                    return
-                }
-
-                let q = currq || lastq
-                nextURL.searchParams.set(nextSearchEngine.qparam, q)
-                browser.tabs.update(tab.id, { url: nextURL.href });
-                browser.storage.local.set({ lastq: q })
-                return
-                       
+        if (event.target.name !== "search-engine") return;
+    
+        const nextSearchEngine = TextSearchEngines.find(e => e.name === event.target.value);
+        const nextURL = new URL(nextSearchEngine.url);
+    
+        if (currSearchEngine) {
+            const currq = tabUrl.searchParams.get(currSearchEngine.qparam);
+            const { lastq } = await chrome.storage.local.get("lastq");
+            const query = currq || lastq;
+    
+            if (tabUrl.pathname === "/" && !currq && !currSearchEngine.useLastq) {
+                chrome.tabs.update(tab.id, { url: nextURL.origin });
             } else {
-                browser.tabs.create( { url: nextURL.origin } )
+                nextURL.searchParams.set(nextSearchEngine.qparam, query);
+                chrome.tabs.update(tab.id, { url: nextURL.href });
+                chrome.storage.local.set({ lastq: query });
             }
+        } else if (["about:newtab", "about:home", "about:blank"].includes(tabUrl.href)) {    
+            chrome.tabs.update(tab.id, { url: nextURL.origin });
+        } else {
+            chrome.tabs.create({ url: nextURL.origin });
         }
     });
 });
