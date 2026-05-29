@@ -28,7 +28,7 @@ body {
 	align-items: flex-start;
 }
 
-legend {
+#title {
 	background-color: var(--legeng-bg);
 	color: #FFF203;
 	font-weight: bold;
@@ -41,6 +41,10 @@ label {
 
 input[type="radio"] {
 	margin-right: 5px;
+}
+
+fieldset {
+	margin: 0 0 0.8em;
 }
 
 #settings {
