@@ -16,6 +16,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     checkbox.addEventListener("change", async () => {
         await browser.storage.local.set({ openInNewTab: checkbox.checked });
     });
+
+    const allAtOnceCheckbox = document.getElementById("all-at-once");
     
     // search engines list
     let { TextSearchEngines } = await browser.storage.local.get("TextSearchEngines")
@@ -60,7 +62,46 @@ document.addEventListener("DOMContentLoaded", async () => {
         fieldset.appendChild(label);
     }
 
+    const getCurrentQuery = async () => {
+        if (currSearchEngine) {
+            const currq = tabUrl.searchParams.get(currSearchEngine.qparam);
+            const { lastq } = await browser.storage.local.get("lastq");
+            return currq || lastq;
+        }
+
+        const { lastq } = await browser.storage.local.get("lastq");
+        return lastq;
+    }
+
+    allAtOnceCheckbox.addEventListener("change", async () => {
+        if (!allAtOnceCheckbox.checked) return;
+
+        const query = await getCurrentQuery();
+        const enabledSearchEngines = TextSearchEngines.filter(search => search.enabled);
+
+        for (const search of enabledSearchEngines) {
+            if (currSearchEngine && search.name === currSearchEngine.name) {
+                continue;
+            }
+
+            const url = new URL(search.url);
+            if (query) {
+                url.searchParams.set(search.qparam, query);
+            }
+            browser.tabs.create({ url: query ? url.href : url.origin });
+        }
+
+        if (query) {
+            browser.storage.local.set({ lastq: query });
+        }
+
+        window.setTimeout(() => {
+            allAtOnceCheckbox.checked = false;
+        }, 1000);
+    });
+
     fieldset.addEventListener("change", async (event) => {
+        if (event.target.id === "all-at-once") return;
         if (event.target.name !== "search-engine") return;
     
         const nextSearchEngine = TextSearchEngines.find(e => e.name === event.target.value);
@@ -69,33 +110,31 @@ document.addEventListener("DOMContentLoaded", async () => {
         const shouldOpenInNewTab = openInNewTab || false;
     
         if (currSearchEngine) {
-            const currq = tabUrl.searchParams.get(currSearchEngine.qparam);
-            const { lastq } = await chrome.storage.local.get("lastq");
-            const query = currq || lastq;
-    
-            if (tabUrl.pathname === "/" && !currq && !currSearchEngine.useLastq) {
+            const query = await getCurrentQuery();
+
+            if (tabUrl.pathname === "/" && !tabUrl.searchParams.get(currSearchEngine.qparam) && !currSearchEngine.useLastq) {
                 if (shouldOpenInNewTab) {
-                    chrome.tabs.create({ url: nextURL.origin });
+                    browser.tabs.create({ url: nextURL.origin });
                 } else {
-                    chrome.tabs.update(tab.id, { url: nextURL.origin });
+                    browser.tabs.update(tab.id, { url: nextURL.origin });
                 }
             } else {
                 nextURL.searchParams.set(nextSearchEngine.qparam, query);
                 if (shouldOpenInNewTab) {
-                    chrome.tabs.create({ url: nextURL.href });
+                    browser.tabs.create({ url: nextURL.href });
                 } else {
-                    chrome.tabs.update(tab.id, { url: nextURL.href });
+                    browser.tabs.update(tab.id, { url: nextURL.href });
                 }
-                chrome.storage.local.set({ lastq: query });
+                browser.storage.local.set({ lastq: query });
             }
         } else if (["about:newtab", "about:home", "about:blank"].includes(tabUrl.href)) {    
             if (shouldOpenInNewTab) {
-                chrome.tabs.create({ url: nextURL.origin });
+                browser.tabs.create({ url: nextURL.origin });
             } else {
-                chrome.tabs.update(tab.id, { url: nextURL.origin });
+                browser.tabs.update(tab.id, { url: nextURL.origin });
             }
         } else {
-            chrome.tabs.create({ url: nextURL.origin });
+            browser.tabs.create({ url: nextURL.origin });
         }
     });
 });
