@@ -7,6 +7,16 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
     document.documentElement.setAttribute("theme", theme);
     
+    // load open in new tab preference
+    let { openInNewTab } = await browser.storage.local.get("openInNewTab");
+    const checkbox = document.getElementById("open-in-new-tab");
+    checkbox.checked = openInNewTab || false;
+    
+    // save checkbox state when changed
+    checkbox.addEventListener("change", async () => {
+        await browser.storage.local.set({ openInNewTab: checkbox.checked });
+    });
+    
     // search engines list
     let { TextSearchEngines } = await browser.storage.local.get("TextSearchEngines")
 
@@ -55,6 +65,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     
         const nextSearchEngine = TextSearchEngines.find(e => e.name === event.target.value);
         const nextURL = new URL(nextSearchEngine.url);
+        const { openInNewTab } = await browser.storage.local.get("openInNewTab");
+        const shouldOpenInNewTab = openInNewTab || false;
     
         if (currSearchEngine) {
             const currq = tabUrl.searchParams.get(currSearchEngine.qparam);
@@ -62,14 +74,26 @@ document.addEventListener("DOMContentLoaded", async () => {
             const query = currq || lastq;
     
             if (tabUrl.pathname === "/" && !currq && !currSearchEngine.useLastq) {
-                chrome.tabs.update(tab.id, { url: nextURL.origin });
+                if (shouldOpenInNewTab) {
+                    chrome.tabs.create({ url: nextURL.origin });
+                } else {
+                    chrome.tabs.update(tab.id, { url: nextURL.origin });
+                }
             } else {
                 nextURL.searchParams.set(nextSearchEngine.qparam, query);
-                chrome.tabs.update(tab.id, { url: nextURL.href });
+                if (shouldOpenInNewTab) {
+                    chrome.tabs.create({ url: nextURL.href });
+                } else {
+                    chrome.tabs.update(tab.id, { url: nextURL.href });
+                }
                 chrome.storage.local.set({ lastq: query });
             }
         } else if (["about:newtab", "about:home", "about:blank"].includes(tabUrl.href)) {    
-            chrome.tabs.update(tab.id, { url: nextURL.origin });
+            if (shouldOpenInNewTab) {
+                chrome.tabs.create({ url: nextURL.origin });
+            } else {
+                chrome.tabs.update(tab.id, { url: nextURL.origin });
+            }
         } else {
             chrome.tabs.create({ url: nextURL.origin });
         }

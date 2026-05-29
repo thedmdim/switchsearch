@@ -39,4 +39,12 @@ td {
     padding: 10px;
 }
 
+a {
+    color: var(--text);
 
+}
+
+
+a:hover {
+	text-decoration: underline;
+}

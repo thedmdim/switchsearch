@@ -69,6 +69,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
     });
 
+    // switch in new tab
+    document.querySelector("input[name='newtab']").addEventListener("change", async event => {
+        browser.storage.local.set({ newtab: event.target.checked });
+    });
+
     // search engines list
 
     let appendForm = document.getElementById("append-form")
