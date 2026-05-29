@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         document.documentElement.setAttribute("theme", theme);
     }
 
-    let { theme } = await chrome.storage.local.get("theme");
+    let { theme } = await browser.storage.local.get("theme");
     if (!theme) {
         theme = "auto"
     }
@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             input.checked = true
         }
         input.addEventListener("change", () => {
-            chrome.storage.local.set({ theme: input.value });
+            browser.storage.local.set({ theme: input.value });
             applyTheme(input.value)
         });
     });
@@ -73,12 +73,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     let appendForm = document.getElementById("append-form")
     let table = appendForm.parentNode
-    let { TextSearchEngines } = await chrome.storage.local.get("TextSearchEngines");
+    let { TextSearchEngines } = await browser.storage.local.get("TextSearchEngines");
     for (let i in TextSearchEngines) {
         let row = createTableRow(TextSearchEngines[i])
         table.insertBefore(row, appendForm)
     }
-
+    
     document.getElementById("append").onclick = async () => {
         let name = document.getElementById("name")
         let url = document.getElementById("url")
@@ -96,9 +96,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 		    builtIn: false,
 		    enabled: true
         }
-        let { TextSearchEngines } = await chrome.storage.local.get("TextSearchEngines");
+        let { TextSearchEngines } = await browser.storage.local.get("TextSearchEngines");
         TextSearchEngines.push(searchData)
-        chrome.storage.local.set({TextSearchEngines: TextSearchEngines});
+        browser.storage.local.set({TextSearchEngines: TextSearchEngines});
 
         let row = createTableRow(searchData)
         table.insertBefore(row, appendForm)
@@ -108,14 +108,14 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (event.target.name == "enabled") {
             let i = TextSearchEngines.findIndex(e => e.name == event.target.value)
             TextSearchEngines[i].enabled = event.target.checked
-            chrome.storage.local.set({TextSearchEngines: TextSearchEngines});
+            browser.storage.local.set({TextSearchEngines: TextSearchEngines});
             return
         };
 
         if (event.target.name == "remove") {
-            let { TextSearchEngines } = await chrome.storage.local.get("TextSearchEngines");
-            chrome.storage.local.set({TextSearchEngines: TextSearchEngines.filter(e => e.name !== event.target.value)});
-            chrome.tabs.reload()
+            let { TextSearchEngines } = await browser.storage.local.get("TextSearchEngines");
+            browser.storage.local.set({TextSearchEngines: TextSearchEngines.filter(e => e.name !== event.target.value)});
+            browser.tabs.reload()
         }
     });
 });
