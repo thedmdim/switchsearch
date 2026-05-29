@@ -28,7 +28,7 @@ body {
 	align-items: flex-start;
 }
 
-legend {
+#title {
 	background-color: var(--legeng-bg);
 	color: #FFF203;
 	font-weight: bold;
@@ -43,20 +43,8 @@ input[type="radio"] {
 	margin-right: 5px;
 }
 
-#options {
-	margin: 10px 0;
-	padding-left: 5px;
-}
-
-#new-tab-label {
-	display: flex;
-	align-items: center;
-	font-size: 0.9em;
-}
-
-#open-in-new-tab {
-	margin-right: 5px;
-	cursor: pointer;
+fieldset {
+	margin: 0 0 0.8em;
 }
 
 #settings {
