@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "SwitchSearch",
-  "version": "1.7",
+  "version": "1.8",
   "description": "Switch Search Engines Without Losing Your Query",
   "permissions": ["storage", "tabs", "contextMenus"],
   "action": {
